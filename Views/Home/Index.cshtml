@@ -1,0 +1,52 @@
+﻿@model MVCChat.Models.ViewMessages
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_Layout";
+}
+
+<script>
+    function saveText() {
+        localStorage.setItem("nick", document.getElementById("nick").value);
+    }
+    function getText() {
+        document.getElementById("nick").value = localStorage.getItem("nick");
+    }
+    window.onload = function () {
+        getText();
+    };
+</script>
+
+<div>
+    <h1 class="display-4">Welcome to Chat</h1>
+
+    <div class="info-div overflow-auto" style="height:400px; overflow-y: scroll;">
+        @foreach (Message entity in Model.Messages)
+        {
+            <p>@entity.Name: @entity.Text</p>
+        }
+    </div>
+
+    <form method="post" asp-action="Create" asp-controller="home">
+        <table style="text-align: left">
+            <tr>
+                <th>
+                    <label>Ник: </label>
+                </th>
+                <th>
+                    <input id="nick" type="text" asp-for="Name" />
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <label>Сообщение: </label>
+                </th>
+                <th>
+                    <input id="text" type="text" asp-for="Text" />
+                </th>
+                <th>
+                    <input type="submit" class="btn btn-primary" style="margin-left:40px" value="Отправить" onclick="saveText()" />
+                </th>
+            </tr>
+        </table>
+    </form>
+</div>
